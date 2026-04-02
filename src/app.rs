@@ -278,24 +278,21 @@ impl App {
 
     fn update_metrics(&mut self, data: Metrics) {
         self.last_error = None;
-        self.e_cpu_usage
-            .push(
-                data.e_cpu_usage.0 as u64,
-                data.e_cpu_usage.1 as f64,
-                data.e_cpu_usage.0 > 0 || data.e_cpu_usage.1 > 0.0,
-            );
-        self.p_cpu_usage
-            .push(
-                data.p_cpu_usage.0 as u64,
-                data.p_cpu_usage.1 as f64,
-                data.p_cpu_usage.0 > 0 || data.p_cpu_usage.1 > 0.0,
-            );
-        self.gpu_usage
-            .push(
-                data.gpu_usage.0 as u64,
-                data.gpu_usage.1 as f64,
-                self.device.gpu_backend != "none",
-            );
+        self.e_cpu_usage.push(
+            data.e_cpu_usage.0 as u64,
+            data.e_cpu_usage.1 as f64,
+            data.e_cpu_usage.0 > 0 || data.e_cpu_usage.1 > 0.0,
+        );
+        self.p_cpu_usage.push(
+            data.p_cpu_usage.0 as u64,
+            data.p_cpu_usage.1 as f64,
+            data.p_cpu_usage.0 > 0 || data.p_cpu_usage.1 > 0.0,
+        );
+        self.gpu_usage.push(
+            data.gpu_usage.0 as u64,
+            data.gpu_usage.1 as f64,
+            self.device.gpu_backend != "none",
+        );
         self.cpu_temp.push(data.temp.cpu_temp);
         self.gpu_temp.push(data.temp.gpu_temp);
         self.cpu_power.push(data.power.cpu_power);
