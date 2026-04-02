@@ -680,7 +680,7 @@ public static class WinmonUser32 {{
 "#
     );
 
-    let output = Command::new("powershell")
+    let output = powershell_command()
         .args([
             "-NoProfile",
             "-ExecutionPolicy",
@@ -701,6 +701,22 @@ public static class WinmonUser32 {{
         };
         Err(msg.into())
     }
+}
+
+#[cfg(windows)]
+fn powershell_command() -> Command {
+    if let Ok(system_root) = std::env::var("SystemRoot") {
+        let candidate = std::path::PathBuf::from(system_root)
+            .join("System32")
+            .join("WindowsPowerShell")
+            .join("v1.0")
+            .join("powershell.exe");
+        if candidate.is_file() {
+            return Command::new(candidate);
+        }
+    }
+
+    Command::new("powershell")
 }
 
 #[cfg(windows)]
@@ -788,7 +804,7 @@ fn run_powershell_json_with_env<T: DeserializeOwned>(
     let command = format!(
         "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8; {script}"
     );
-    let mut cmd = Command::new("powershell");
+    let mut cmd = powershell_command();
     cmd.args([
         "-NoProfile",
         "-ExecutionPolicy",

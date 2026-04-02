@@ -87,7 +87,7 @@ docker compose up -d
 ## Notes
 
 - Settings are stored in `%APPDATA%\winmon\config.json`
-- Some sensors may require administrator privileges on some systems
+- On some systems, `CPU temp` and `E-CPU` / `P-CPU` sensors require administrator privileges. Without admin they fall back to `N/A`.
 - `sys_power` currently stays `N/A`
 
 ## Thanks

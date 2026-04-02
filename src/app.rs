@@ -44,14 +44,16 @@ struct UsageStore {
     items: Vec<u64>,
     top_value: u64,
     usage: f64,
+    available: bool,
 }
 
 impl UsageStore {
-    fn push(&mut self, value: u64, usage: f64) {
+    fn push(&mut self, value: u64, usage: f64, available: bool) {
         self.items.insert(0, (usage * 100.0) as u64);
         self.items.truncate(MAX_SPARKLINE);
         self.top_value = value;
         self.usage = usage;
+        self.available = available;
     }
 }
 
@@ -165,6 +167,7 @@ fn h_stack(area: Rect) -> (Rect, Rect) {
 
 enum Event {
     Update(Metrics),
+    SamplerError(String),
     ChangeColor,
     ChangeView,
     IncInterval,
@@ -213,15 +216,21 @@ fn run_sampler_thread(
 ) -> JoinHandle<()> {
     std::thread::spawn(move || {
         let Ok(mut sampler) = Sampler::new() else {
+            let _ = tx.send(Event::SamplerError("sampler init failed".to_string()));
             return;
         };
 
         while !stop.load(Ordering::Relaxed) {
             let interval = (*msec.read().unwrap()).max(500) as u64;
             let started = Instant::now();
-            if let Ok(metrics) = sampler.get_metrics() {
-                if tx.send(Event::Update(metrics)).is_err() {
-                    break;
+            match sampler.get_metrics() {
+                Ok(metrics) => {
+                    if tx.send(Event::Update(metrics)).is_err() {
+                        break;
+                    }
+                }
+                Err(err) => {
+                    let _ = tx.send(Event::SamplerError(err.to_string()));
                 }
             }
             let elapsed = started.elapsed();
@@ -253,6 +262,7 @@ pub struct App {
     e_cpu_usage: UsageStore,
     p_cpu_usage: UsageStore,
     gpu_usage: UsageStore,
+    last_error: Option<String>,
 }
 
 impl App {
@@ -267,12 +277,25 @@ impl App {
     }
 
     fn update_metrics(&mut self, data: Metrics) {
+        self.last_error = None;
         self.e_cpu_usage
-            .push(data.e_cpu_usage.0 as u64, data.e_cpu_usage.1 as f64);
+            .push(
+                data.e_cpu_usage.0 as u64,
+                data.e_cpu_usage.1 as f64,
+                data.e_cpu_usage.0 > 0 || data.e_cpu_usage.1 > 0.0,
+            );
         self.p_cpu_usage
-            .push(data.p_cpu_usage.0 as u64, data.p_cpu_usage.1 as f64);
+            .push(
+                data.p_cpu_usage.0 as u64,
+                data.p_cpu_usage.1 as f64,
+                data.p_cpu_usage.0 > 0 || data.p_cpu_usage.1 > 0.0,
+            );
         self.gpu_usage
-            .push(data.gpu_usage.0 as u64, data.gpu_usage.1 as f64);
+            .push(
+                data.gpu_usage.0 as u64,
+                data.gpu_usage.1 as f64,
+                self.device.gpu_backend != "none",
+            );
         self.cpu_temp.push(data.temp.cpu_temp);
         self.gpu_temp.push(data.temp.gpu_temp);
         self.cpu_power.push(data.power.cpu_power);
@@ -300,7 +323,9 @@ impl App {
     }
 
     fn render_usage_block(&self, f: &mut Frame, area: Rect, label: &str, store: &UsageStore) {
-        let label = if store.top_value > 0 {
+        let label = if !store.available {
+            format!("{label} N/A")
+        } else if store.top_value > 0 {
             format!(
                 "{label} {:3.0}% @ {:4} MHz",
                 store.usage * 100.0,
@@ -453,7 +478,10 @@ impl App {
                 self.sys_power.top_value, self.sys_power.avg_value, self.sys_power.max_value
             )
         } else {
-            String::new()
+            self.last_error
+                .as_ref()
+                .map(|err| format!("Error {err}"))
+                .unwrap_or_default()
         };
 
         let block = self.title_block(&power_left, &power_right);
@@ -493,6 +521,7 @@ impl App {
             match rx.recv()? {
                 Event::Quit => break,
                 Event::Update(data) => self.update_metrics(data),
+                Event::SamplerError(err) => self.last_error = Some(err),
                 Event::ChangeColor => self.cfg.next_color(),
                 Event::ChangeView => self.cfg.next_view_type(),
                 Event::IncInterval => {
