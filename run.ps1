@@ -2,7 +2,7 @@
 param(
   [switch]$Release,
   [string]$TargetDir,
-  [Parameter(ValueFromRemainingArguments = $true)]
+  [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
   [string[]]$AppArgs
 )
 
