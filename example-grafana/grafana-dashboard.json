@@ -86,7 +86,7 @@
           "refId": "A"
         }
       ],
-      "title": "Total Chip Power",
+      "title": "Tracked CPU + GPU Power",
       "type": "stat"
     },
     {
@@ -375,24 +375,10 @@
         },
         {
           "editorMode": "code",
-          "expr": "winmon_ane_power_watts",
-          "legendFormat": "ANE",
+          "expr": "winmon_all_power_watts",
+          "legendFormat": "CPU+GPU",
           "range": true,
           "refId": "C"
-        },
-        {
-          "editorMode": "code",
-          "expr": "winmon_ram_power_watts",
-          "legendFormat": "RAM",
-          "range": true,
-          "refId": "D"
-        },
-        {
-          "editorMode": "code",
-          "expr": "winmon_sys_power_watts",
-          "legendFormat": "System",
-          "range": true,
-          "refId": "E"
         }
       ],
       "title": "Power Breakdown",

@@ -58,11 +58,28 @@ winmon serve --port 9090
 
 仓库里也放了一个 [example-grafana](/Volumes/usb_main/usb_main/test_bug/winmon/example-grafana) 目录，方便直接接 Prometheus / Grafana。
 
+如果 Prometheus 跑在另一台机器上，把 `example-grafana/prometheus.yml` 里的 `192.168.8.16:9090` 改成实际的 `winmon serve` 地址即可。
+
+在当前这套局域网环境里，可以直接：
+
+```bash
+cd example-grafana
+docker compose up -d
+```
+
+默认入口：
+
+- Prometheus: `http://localhost:9091`
+- Grafana: `http://localhost:9000`
+- Grafana 默认账号: `winmon`
+- Grafana 默认密码: `winmon`
+
 ## 说明
 
 - 颜色、视图模式、刷新间隔保存在 `%APPDATA%\winmon\config.json`
 - CPU 温度和 P/E CPU 传感器依赖内嵌的 `OpenHardwareMonitorLib.dll`
 - 某些机器上的部分传感器可能需要管理员权限
+- `sys_power` 当前没有可靠通用来源，长期保持 `N/A`
 - 当前发布包使用静态 CRT，不额外依赖 VC++ 运行库
 
 ## 许可证

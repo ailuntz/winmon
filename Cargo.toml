@@ -1,6 +1,6 @@
 [package]
 name = "winmon"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 description = "Windows CLI monitor for Intel CPU and discrete GPU"
 license = "MIT"

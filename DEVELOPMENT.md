@@ -19,7 +19,7 @@ powershell -ExecutionPolicy Bypass -File .\run.ps1 pipe -s 1 --device-info
 release 包由 `scripts/package.ps1` 生成：
 
 ```powershell
-.\scripts\package.ps1 -Version v0.1.1 -TargetDir target
+.\scripts\package.ps1 -Version v0.1.2 -TargetDir target
 ```
 
 当前包里只放：
@@ -56,6 +56,23 @@ release 包由 `scripts/package.ps1` 生成：
 - `install.ps1`
 - `scripts/package.ps1`
 
+## example-grafana
+
+`example-grafana` 现在默认按局域网直连 Windows 主机来写，Prometheus 直接抓：
+
+- `192.168.8.16:9090`
+
+如果 `winmon serve` 的主机或端口变了，只改 `example-grafana/prometheus.yml` 即可。
+
+本机有 Docker 时可以直接：
+
+```bash
+cd example-grafana
+docker compose up -d
+```
+
+当前面板只保留 `winmon` 已稳定输出的指标，`sys_power` 不再继续追，长期接受 `N/A`。
+
 ## 许可证
 
 仓库自身代码现在按 `MIT` 发布。
@@ -67,12 +84,12 @@ release 包由 `scripts/package.ps1` 生成：
 
 ## winget
 
-仓库里已经放了一份 `v0.1.0` 的 `winget` manifest，路径在 `winget/manifests/a/Ailuntz/Winmon/0.1.0/`。
+仓库里已经放了一份 `winget` manifest 示例，路径在 `winget/manifests/a/Ailuntz/Winmon/`。
 
 后续发新版时可以直接用：
 
 ```powershell
-.\scripts\gen-winget.ps1 -Version 0.1.0 -InstallerSha256 <sha256>
+.\scripts\gen-winget.ps1 -Version 0.1.2 -InstallerSha256 <sha256>
 ```
 
 注意两点：

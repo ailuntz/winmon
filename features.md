@@ -2,6 +2,13 @@
 
 对齐目标：`macmon v0.7.0`
 
+## Upstream
+
+- Source: `https://github.com/vladkens/macmon`
+- Last synced upstream version: `v0.7.0 (432225a, 2026-04-01)`
+- To clone this upstream version: `git clone --branch v0.7.0 --single-branch https://github.com/vladkens/macmon.git`
+- Notes: `winmon` 在这个基准上保留了整体 TUI 布局和交互思路，但 Windows 侧采集、安装自举、打包和发布链路均为重写，CPU/GPU 传感器改为 PowerShell、`nvidia-smi` 和 `OpenHardwareMonitorLib.dll`
+
 说明：
 - 这里只跟踪上游 `changelog.md` 里和 `winmon` 相关的用户可见功能/修复。
 - 允许实现方式不同，但功能效果尽量对齐。
@@ -77,7 +84,7 @@
 
 | 类别 | 上游项 | 状态 | 备注 |
 | --- | --- | --- | --- |
-| Feature | Total system power display | 🟡 | UI 已有 `SYS`，但数据源还不稳定，经常为 `N/A` |
+| Feature | Total system power display | ❌ | 不继续追，接受长期 `N/A` |
 | Feature | `--no-color` mode | ❌ | 当前未做，优先级低 |
 
 ## v0.2.0
@@ -89,9 +96,7 @@
 | Feature | Version label in the UI | ✅ | 已支持 |
 | Improvement | Better E/P CPU frequency calculation | ✅ | 已有等价能力，但实现基于 Windows 性能计数器和 OHM |
 
-## 当前最值得补的项
+## 当前说明
 
-1. `cpu_usage_pct`
-2. RAM 百分比显示
-3. 温度脏值过滤 / 缺值平滑
-4. `serve` 模式（`/json` + `/metrics`）
+- `sys_power` 不再继续追，长期接受 `N/A`
+- Grafana 示例只保留当前 `winmon` 已稳定输出的指标

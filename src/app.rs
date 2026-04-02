@@ -457,7 +457,7 @@ impl App {
         };
 
         let block = self.title_block(&power_left, &power_right);
-        let usage = format!(" q 退出 | c 颜色 | v 视图 | -/+ {}ms ", self.cfg.interval);
+        let usage = format!(" q quit | c color | v view | -/+ {}ms ", self.cfg.interval);
         let block = block.title_bottom(Line::from(usage).right_aligned());
         let inner = block.inner(rows[1]);
         f.render_widget(block, rows[1]);
