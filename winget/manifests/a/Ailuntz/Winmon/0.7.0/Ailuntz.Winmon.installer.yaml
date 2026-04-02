@@ -11,6 +11,6 @@ NestedInstallerFiles:
 Installers:
 - Architecture: x64
   InstallerUrl: https://github.com/ailuntz/winmon/releases/download/v0.7.0/winmon-windows-x64.zip
-  InstallerSha256: 10DC6E4651C5345BB31CD8FB0FB6801BC6CD522246A629D73D9B7CBCC8FFA025
+  InstallerSha256: E397B97727A13B343A9C92B0FD3990B696979FF1EB9E3E78C61B405E9BF8D78E
 ManifestType: installer
 ManifestVersion: 1.12.0
