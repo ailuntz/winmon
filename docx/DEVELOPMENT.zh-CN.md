@@ -19,7 +19,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run.ps1 pipe -s 1 --device-in
 release 包由 `scripts/package.ps1` 生成：
 
 ```powershell
-.\scripts\package.ps1 -Version v0.7.0 -TargetDir target
+.\scripts\package.ps1 -Version vX.Y.Z -TargetDir target
 ```
 
 当前包里只放：
@@ -60,7 +60,7 @@ release 包由 `scripts/package.ps1` 生成：
 
 `example-grafana` 现在默认按局域网直连 Windows 主机来写，Prometheus 直接抓：
 
-- `192.168.8.16:9090`
+- `<winmon-host>:9090`
 
 如果 `winmon serve` 的主机或端口变了，只改 `example-grafana/prometheus.yml` 即可。
 
@@ -89,7 +89,7 @@ docker compose up -d
 后续发新版时可以直接用：
 
 ```powershell
-.\scripts\gen-winget.ps1 -Version 0.7.0 -InstallerSha256 <sha256>
+.\scripts\gen-winget.ps1 -Version X.Y.Z -InstallerSha256 <sha256>
 ```
 
 注意两点：
