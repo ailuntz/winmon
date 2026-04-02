@@ -259,8 +259,8 @@ $pCpuFreq = $null
 
 function Get-OhmSensors {
   $dllCandidates = @(
-    (if ($env:WINMON_STABLE_DIR) { Join-Path $env:WINMON_STABLE_DIR 'third_party\ohm\OpenHardwareMonitorLib.dll' } else { $null }),
-    (if ($env:WINMON_EXE_DIR) { Join-Path $env:WINMON_EXE_DIR 'third_party\ohm\OpenHardwareMonitorLib.dll' } else { $null }),
+    $(if ($env:WINMON_STABLE_DIR) { Join-Path $env:WINMON_STABLE_DIR 'third_party\ohm\OpenHardwareMonitorLib.dll' } else { $null }),
+    $(if ($env:WINMON_EXE_DIR) { Join-Path $env:WINMON_EXE_DIR 'third_party\ohm\OpenHardwareMonitorLib.dll' } else { $null }),
     (Join-Path (Get-Location) 'third_party\ohm\OpenHardwareMonitorLib.dll')
   ) | Where-Object { $_ -and (Test-Path $_) }
 
