@@ -66,8 +66,8 @@ struct StaticMemoryInfo {
 
 #[derive(Debug, Default, Deserialize)]
 struct FastSnapshot {
-    cpu_usage_percent: f32,
-    cpu_freq_mhz: u32,
+    cpu_usage_percent: Option<f32>,
+    cpu_freq_mhz: Option<u32>,
     e_cpu_usage_percent: Option<f32>,
     e_cpu_freq_mhz: Option<u32>,
     p_cpu_usage_percent: Option<f32>,
@@ -521,8 +521,8 @@ impl Sampler {
             let ram_used_bytes = load_ram_used_bytes()?;
             let slow = *self.slow_cache.read().unwrap();
             let sample = Snapshot {
-                cpu_usage_percent: fast.cpu_usage_percent,
-                cpu_freq_mhz: fast.cpu_freq_mhz,
+                cpu_usage_percent: fast.cpu_usage_percent.unwrap_or_default(),
+                cpu_freq_mhz: fast.cpu_freq_mhz.unwrap_or_default(),
                 cpu_base_freq_mhz: self.device.cpu_base_freq_mhz,
                 e_cpu_usage_percent: fast.e_cpu_usage_percent,
                 e_cpu_freq_mhz: fast.e_cpu_freq_mhz,
