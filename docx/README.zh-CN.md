@@ -2,7 +2,15 @@
 
 `winmon` 是一个给 Windows 用的终端监控工具。
 
+英文版说明见仓库根目录 [README.md](/Volumes/usb_main/usb_main/test_bug/winmon/README.md)。
+
+## 说明
+
 - Windows 10/11 x64
+- 设置保存在 `%APPDATA%\winmon\config.json`
+- 某些机器上，`CPU temp` 和 `E-CPU` / `P-CPU` 传感器需要管理员权限；非管理员时会回落到 `N/A`
+
+## 用法
 
 默认直接起终端界面，也支持命令模式：
 
@@ -12,8 +20,6 @@ winmon pipe -s 1 --device-info
 winmon debug
 winmon serve
 ```
-
-英文版说明见仓库根目录 [README.md](/Volumes/usb_main/usb_main/test_bug/winmon/README.md)。
 
 ## 安装
 
@@ -40,7 +46,7 @@ curl.exe -L --fail --silent --show-error "https://github.com/ailuntz/winmon/rele
 powershell -NoProfile -ExecutionPolicy Bypass -File "%TEMP%\winmon-install.ps1"
 ```
 
-## serve
+## HTTP 服务
 
 可以通过 HTTP 暴露当前指标：
 
@@ -72,19 +78,11 @@ docker compose up -d
 - Grafana 默认账号: `winmon`
 - Grafana 默认密码: `winmon`
 
-## 说明
+## 致谢
 
-- 颜色、视图模式、刷新间隔保存在 `%APPDATA%\winmon\config.json`
-- CPU 温度和 P/E CPU 传感器依赖内嵌的 `OpenHardwareMonitorLib.dll`
-- 某些机器上的部分传感器可能需要管理员权限
-- `sys_power` 当前没有可靠通用来源，长期保持 `N/A`
-- 当前发布包使用静态 CRT，不额外依赖 VC++ 运行库
+- [macmon](https://github.com/vladkens/macmon) 提供了原始布局和交互方向
+- [OpenHardwareMonitorLib](https://www.nuget.org/packages/OpenHardwareMonitorLib) 提供 Windows 硬件传感器访问能力
 
 ## 许可证
 
 仓库自身代码按 `MIT` 发布。
-
-`third_party` 里的外部文件继续保留它们各自的许可证：
-
-- `OpenHardwareMonitorLib.dll` 按 `MPL-2.0`
-- 参考过的 `macmon` 说明和 `MIT` 文本保留在 `third_party/licenses`

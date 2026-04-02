@@ -14,9 +14,11 @@ Terminal hardware monitor for Windows.
 
 Chinese docs are under [docx](/Volumes/usb_main/usb_main/test_bug/winmon/docx).
 
-## Scope
 
+## Notes
 - Windows 10/11 x64
+- Settings are stored in `%APPDATA%\winmon\config.json`
+- On some systems, `CPU temp` and `E-CPU` / `P-CPU` sensors require administrator privileges. Without admin they fall back to `N/A`.
 
 ## Usage
 
@@ -83,12 +85,6 @@ docker compose up -d
 - Grafana: `http://localhost:9000`
 - Grafana user: `winmon`
 - Grafana password: `winmon`
-
-## Notes
-
-- Settings are stored in `%APPDATA%\winmon\config.json`
-- On some systems, `CPU temp` and `E-CPU` / `P-CPU` sensors require administrator privileges. Without admin they fall back to `N/A`.
-- `sys_power` currently stays `N/A`
 
 ## Thanks
 
