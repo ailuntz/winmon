@@ -14,8 +14,8 @@ on:
       - LICENSE
       - README.md
       - DEVELOPMENT.md
-      - install.ps1
-      - run.ps1
+      - features.md
+      - docx/**
       - src/**
       - scripts/**
       - winget/**
@@ -40,7 +40,7 @@ jobs:
 
       - name: install script dry run
         shell: pwsh
-        run: ./install.ps1 -Repo example/winmon -DryRun
+        run: ./scripts/install.ps1 -Repo example/winmon -DryRun
 
       - name: winget manifest dry run
         shell: pwsh

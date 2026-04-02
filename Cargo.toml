@@ -1,8 +1,8 @@
 [package]
 name = "winmon"
-version = "0.1.2"
+version = "0.7.0"
 edition = "2024"
-description = "Windows CLI monitor for Intel CPU and discrete GPU"
+description = "Windows terminal hardware monitor"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/ailuntz/winmon"

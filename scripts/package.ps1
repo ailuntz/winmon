@@ -62,8 +62,6 @@ winmon package
 
 Requirements:
 - Windows 10/11 x64
-- Intel CPU
-- NVIDIA discrete GPU
 
 Run:
 - first run winmon.exe from the extracted zip once

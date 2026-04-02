@@ -63,15 +63,14 @@ PackageName: $PackageName
 PackageUrl: $repoUrl
 License: MIT
 LicenseUrl: $licenseUrl
-ShortDescription: Windows terminal hardware monitor for Intel CPU and NVIDIA GPU
-Description: Terminal hardware monitor for Windows focused on Intel CPU and NVIDIA discrete GPU. Starts a TUI by default and also supports pipe and debug modes.
+ShortDescription: Windows terminal hardware monitor
+Description: Terminal hardware monitor for Windows. Starts a TUI by default and also supports pipe and debug modes.
 Moniker: $Moniker
 Tags:
 - monitor
 - terminal
 - cli
-- intel
-- nvidia
+- hardware
 ManifestType: defaultLocale
 ManifestVersion: $ManifestVersion
 "@

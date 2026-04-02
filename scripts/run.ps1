@@ -8,6 +8,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+$repoRoot = Split-Path $PSScriptRoot -Parent
 $vsRoot = "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC"
 $sdkRoot = "C:\Program Files (x86)\Windows Kits\10"
 
@@ -25,11 +26,6 @@ function Find-CargoBin {
 
   if ($env:HOME) {
     $candidates += (Join-Path $env:HOME ".cargo\bin")
-  }
-
-  $scriptUserHome = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
-  if ($scriptUserHome) {
-    $candidates += (Join-Path $scriptUserHome ".cargo\bin")
   }
 
   $candidates += Get-ChildItem "C:\Users" -Directory -ErrorAction SilentlyContinue |
@@ -73,7 +69,7 @@ $env:PATH = "$($vcPath)\bin\Hostx64\x64;$cargoBin;$env:PATH"
 $env:LIB = "$($vcPath)\lib\x64;$sdkLib\um\x64;$sdkLib\ucrt\x64"
 $env:INCLUDE = "$($vcPath)\include;$sdkInc\ucrt;$sdkInc\shared;$sdkInc\um;$sdkInc\winrt;$sdkInc\cppwinrt"
 
-Set-Location $PSScriptRoot
+Set-Location $repoRoot
 
 $cargoArgs = @("run")
 if ($Release) {
