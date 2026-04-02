@@ -24,10 +24,12 @@ winmon debug
 winmon
 ```
 
-如果 release 对当前账号可访问，也可以直接用 PowerShell 一键安装：
+如果 release 对当前账号可访问，也可以直接用 PowerShell 安装。Windows PowerShell 5.1 下更稳的是先落盘再执行：
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://github.com/ailuntz/winmon/releases/latest/download/install.ps1 | iex"
+$p = Join-Path $env:TEMP "winmon-install.ps1"
+iwr "https://github.com/ailuntz/winmon/releases/latest/download/install.ps1" -UseBasicParsing -OutFile $p
+powershell -NoProfile -ExecutionPolicy Bypass -File $p
 ```
 
 `winget` 清单已经准备好了，可以继续往社区仓库提 PR。
