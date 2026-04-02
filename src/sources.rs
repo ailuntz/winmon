@@ -107,8 +107,7 @@ impl Snapshot {
         let combined_cpu_usage_pct = match (device.cpu_p_cores, device.cpu_e_cores) {
             (Some(p_cores), Some(e_cores)) if p_cores + e_cores > 0 => {
                 let total = (p_cores + e_cores) as f32;
-                let weighted =
-                    p_cpu_usage_pct * p_cores as f32 + e_cpu_usage_pct * e_cores as f32;
+                let weighted = p_cpu_usage_pct * p_cores as f32 + e_cpu_usage_pct * e_cores as f32;
                 let combined = zero_div(weighted, total);
                 if combined > 0.0 {
                     combined
@@ -148,14 +147,8 @@ impl Snapshot {
                 },
                 cpu_usage_pct,
             ),
-            e_cpu_usage: (
-                self.e_cpu_freq_mhz.unwrap_or_default(),
-                e_cpu_usage_pct,
-            ),
-            p_cpu_usage: (
-                self.p_cpu_freq_mhz.unwrap_or_default(),
-                p_cpu_usage_pct,
-            ),
+            e_cpu_usage: (self.e_cpu_freq_mhz.unwrap_or_default(), e_cpu_usage_pct),
+            p_cpu_usage: (self.p_cpu_freq_mhz.unwrap_or_default(), p_cpu_usage_pct),
             cpu_usage_pct: combined_cpu_usage_pct,
             gpu_usage: (
                 self.gpu_freq_mhz.unwrap_or_default(),

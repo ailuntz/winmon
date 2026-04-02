@@ -209,7 +209,12 @@ fn handle_conn(mut stream: TcpStream, shared: SharedMetrics, device: Arc<DeviceI
         "/metrics" => {
             let body = to_prometheus(metrics, &device);
             drop(lock);
-            write_response(&mut stream, 200, "text/plain; version=0.0.4; charset=utf-8", body);
+            write_response(
+                &mut stream,
+                200,
+                "text/plain; version=0.0.4; charset=utf-8",
+                body,
+            );
         }
         _ => {
             drop(lock);
